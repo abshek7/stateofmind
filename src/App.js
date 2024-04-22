@@ -34,14 +34,15 @@ function Login({ onLogin }) {
         <h1>Login</h1>
         {error && <div className="error-message">{error}</div>}
         <form onSubmit={handleSubmit}>
-          <label className="form-label">Username</label>
+        <label className="form-label" style={{ color: '#372c7b' }}>
+Username</label>
           <input
             type="text"
             placeholder="Enter your username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <label className="form-label">Password</label>
+          <label className="form-label" style={{color:'#372c7b'}}>Password</label>
           <input
             type="password"
             placeholder="Enter your password"
@@ -55,37 +56,37 @@ function Login({ onLogin }) {
     </div>
   );
 }
-
 function Register({ onRegister }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     // Password validation
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
     if (!passwordRegex.test(password)) {
       setError('Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one digit, and one special character');
       return;
     }
-  
+
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-  
+
     // Username validation
     const usernameRegex = /^[a-zA-Z0-9]+$/;
     if (!usernameRegex.test(username)) {
       setError('Username can only contain letters and numbers');
       return;
     }
-  
+
     const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
     const userExists = registeredUsers.find((u) => u.username === username);
-  
+
     if (userExists) {
       setError('Username already exists');
     } else {
@@ -96,29 +97,28 @@ function Register({ onRegister }) {
       setError('');
     }
   };
-  
 
   return (
     <div className="auth-container">
       <div className="register-container">
         <h1>Register</h1>
-        {error && <div className="error-message">{error}</div>}
+        {error && <div className="error-message" style={{ color: 'red' }}>{error}</div>}
         <form onSubmit={handleSubmit}>
-          <label className="form-label">Username</label>
+          <label className="form-label" style={{ color: '#372c7b' }}>Username</label>
           <input
             type="text"
             placeholder="Enter a username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <label className="form-label">Password</label>
+          <label className="form-label" style={{ color: '#372c7b' }}>Password</label>
           <input
             type="password"
             placeholder="Enter a password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <label className="form-label">Confirm Password</label>
+          <label className="form-label" style={{ color: "#372c7b" }}>Confirm Password</label>
           <input
             type="password"
             placeholder="Confirm your password"
@@ -127,15 +127,14 @@ function Register({ onRegister }) {
           />
           <div className="button-container">
             <button type="submit">Register</button>
-            <Link to="/login" className="register-link">Login Here</Link>
+            <h4 style={{ fontStyle: 'normal', color: '#333' }}>Already have an account?</h4>
+            <Link to="/login" className="register-link" style={{ color: '#372c7b' }}> Login Here</Link>
           </div>
         </form>
       </div>
     </div>
   );
 }
-
-
 
 function Home({ products }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -146,37 +145,36 @@ function Home({ products }) {
   };
 
   const filteredProducts = products.filter((product) =>
-  product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  product.description.toLowerCase().includes(searchTerm.toLowerCase())
-);
+    product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div>
       <h1>MAJELELLO.COM</h1>
-      <div class='rbord'>
-      <div className='search-bar'>
-        <input
-          type='text'
-          placeholder='Search for products'
-          value={searchTerm}
-          onChange={handleSearch}
-        />
+      <div className='rbord'>
+        <div className='search-bar'>
+          <input
+            type='text'
+            placeholder='Search for products'
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        </div>
+        <div className='grid product-grid'>
+          {filteredProducts.slice(0, visibleProducts).reverse().map((product) => (
+            <Link to={`/product/${product.id}`} key={product.id} className='product-card'>
+              <div>
+                <img src={product.image} alt={product.title} className='product-image-home' />
+                <div className='product-details-home'>
+                  <p className='product-title-home'>{product.title}</p>
+                  <p className='product-price-home'>${product.price}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
-      <div className='grid product-grid'>
-      {filteredProducts.slice(0, visibleProducts).reverse().map((product) => (
-  <Link to={`/product/${product.id}`} key={product.id} className='product-card'>
-    <div>
-      <img src={product.image} alt={product.title} className='product-image-home' />
-      <div className='product-details-home'>
-        <p className='product-title-home'>{product.title}</p>
-        <p className='product-price-home'>${product.price}</p>
-      </div>
-    </div>
-  </Link>
-))}
-
-      </div>
-    </div>
     </div>
   );
 }
@@ -194,31 +192,31 @@ function ProductDetail() {
   return (
     <div>
       <h1>Product Page</h1>
-      <div class='rbord-pro'> 
-      <div className='product-page'>
-      {product && (
-        <>
-          <img src={product.image} alt={product.title} className='product-image' />
-          <div className='product-details'>
-            <h4 className='product-title'>TITLE:{product.title}</h4>
-            <h4 className='product-heading'>INFO:</h4>
-            <h4 className='product-description'>{product.description}</h4>
-            <h4 className='product-price'>PRICE:${product.price}</h4>
-            <h4 className='product-rating'>RATING: {product.rating.rate} ({product.rating.count} reviews)</h4>
-          </div>
-          </>
-        )}
+      <div className='rbord-pro'>
+        <div className='product-page'>
+          {product && (
+            <>
+              <img src={product.image} alt={product.title} className='product-image' />
+              <div className='product-details'>
+                <h4 className='product-title'>TITLE:{product.title}</h4>
+                <h4 className='product-heading'>INFO:</h4>
+                <h4 className='product-description'>{product.description}</h4>
+                <h4 className='product-price'>PRICE:${product.price}</h4>
+                <h4 className='product-rating'>RATING: {product.rating.rate} ({product.rating.count} reviews)</h4>
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 }
-
 
 function App() {
   const [products, setProducts] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     axios.get('https://fakestoreapi.com/products')
@@ -240,8 +238,17 @@ function App() {
     navigate('/login');
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    const body = document.body;
+    body.classList.toggle("dark-mode");
+  };
+
   return (
-    <div className="App">
+    <div className={`App ${darkMode ? 'dark-mode' : ''}`}>
+      <button id="dark-mode-toggle" onClick={toggleDarkMode}>
+        {darkMode ? 'Light Mode' : 'Dark Mode'}
+      </button>
       {isLoggedIn ? (
         <>
           <button className="logout-button" onClick={handleLogout}>Logout</button>
