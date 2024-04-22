@@ -45,6 +45,7 @@ h1 {
   gap: 30px;
   border-radius: 15px;
   overflow: hidden;
+  background-color: cyan;
 }
 
 .product-card {
