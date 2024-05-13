@@ -31,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v2  # Use the upload artifact action to upload build artifacts
         with:
           name: dist  # Name of the artifact
-          path: dist/  # Path to the directory containing built files
+          path: build/  # Path to the directory containing built files
